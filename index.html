@@ -1,150 +1,66 @@
-<!doctype html>
+
+
+<!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>A very magical mirror😀😀</title>
-  <meta name="description" content="Pemutar video dengan dua slot iklan mengambang di dalam area video. Tombol tutup muncul hanya saat fullscreen untuk iklan bawah." />
-  <style>
-    :root{
-      --bg:#071029;
-      --accent:#06b6d4;
-      --muted:#93a3b8;
-      --text:#e6eef6;
-      --radius:12px;
-
-      --page-offset:140px;
-      --player-max-width:1100px;
-      --close-size:32px;
-    }
-
-    *{box-sizing:border-box}
-    html,body{height:100%; margin:0; background:linear-gradient(180deg,var(--bg) 0%, #0b1220 100%); font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial;}
-    .wrap{ width:100%; max-width:var(--player-max-width); margin:20px auto; color:var(--text); padding:0 12px; }
-
-    h1.title{ text-align:center; color:var(--accent); margin:0 0 14px; font-weight:600; }
-
-    /* player container */
-    .player{
-      position:relative;
-      border-radius:var(--radius);
-      overflow:hidden;
-      background:#000;
-      box-shadow:0 12px 40px rgba(0,0,0,0.6);
-      min-height:60vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    /* foreground wrapper holds the main video */
-    .foreground-wrap{
-      position:relative;
-      z-index:2;
-      width:calc(100% - 120px);
-      max-width:760px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      pointer-events:none;
-    }
-
-    video#video {
-      width:100%;
-      height: calc(100vh - var(--page-offset));
-      max-height:80vh;
-      object-fit:contain;      /* show full frame without cropping */
-      background:transparent;
-      border-radius:10px;
-      box-shadow: 0 6px 26px rgba(0,0,0,0.45);
-      pointer-events:auto;
-    }
-
-    /* ads and controls overlays stay above video */
-    .ad-slot { position:absolute; z-index:3; display:flex; align-items:center; justify-content:center; gap:8px; }
-    .ad-slot.top { top:14px; left:50%; transform:translateX(-50%); transition: top .18s ease; }
-    .ad-slot.bottom { bottom:120px; left:0; right:0; padding-left:16px; padding-right:16px; justify-content:center; }
-
-    .ad-inner { position:relative; width:320px; height:50px; max-width:100%; background:transparent; overflow:hidden; display:flex; align-items:center; justify-content:center; color:var(--muted); }
-    .ad-slot.bottom .ad-inner { width:100%; max-width:1200px; height:100px; }
-
-    /* overlay link that captures clicks and opens the target URL in a new tab */
-    .ad-link {
-      position:absolute;
-      inset:0;
-      display:block;
-      z-index:3; /* sits above iframe visuals but below close button (close has z-index:6) */
-      text-decoration:none;
-      background:transparent;
-    }
-
-    /* ensure iframe visuals render below the clickable overlay */
-    .ad-inner iframe { position:relative; z-index:1; }
-
-    /* Close button (hidden by default) - we'll control visibility in JS (show only in fullscreen and only bottom) */
-    .ad-close {
-      display:none; /* default hidden */
-      position:absolute;
-      width:var(--close-size);
-      height:var(--close-size);
-      right:8px;
-      top:8px;
-      border-radius:8px;
-      border:0;
-      background: rgba(0,0,0,0.45);
-      color: #fff;
-      cursor:pointer;
-      z-index:6; /* above ad-link */
-      align-items:center;
-      justify-content:center;
-      font-weight:700;
-      line-height:1;
-      padding:0;
-    }
-
-    /* Controls overlay */
-    .controls{
-      position:absolute; left:16px; right:16px; bottom:12px; z-index:4; display:flex; gap:12px; align-items:center; padding:10px;
-      background:linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.45)); border-radius:10px; backdrop-filter: blur(6px);
-    }
-    .controls .btn{ background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--text); padding:8px 10px; border-radius:8px; cursor:pointer; }
-    .controls .progress{ width:100%; height:8px; -webkit-appearance:none; background:rgba(255,255,255,0.06); border-radius:8px; }
-    .controls .progress::-webkit-slider-thumb{ -webkit-appearance:none; width:14px;height:14px;border-radius:50%; background:var(--accent); }
-
-    footer{ text-align:center; margin-top:14px; z-index:6; position:relative; }
-
-    .fullhd-btn { display:inline-block; background:linear-gradient(90deg,var(--accent),#18b4c9); color:#021018; font-weight:700; padding:10px 18px; border-radius:999px; border:0; cursor:pointer; box-shadow:0 6px 20px rgba(6,182,212,0.12); }
-    .fullhd-btn:hover{ transform:translateY(-3px); }
-
-    /* responsive tweaks */
-    @media (max-width:900px){
-      .foreground-wrap{ max-width:520px; width:calc(100% - 48px); }
-      .ad-slot.bottom .ad-inner{ max-width:calc(100% - 48px); height:70px; }
-      .player{ min-height:50vh; }
-    }
-    @media (max-width:480px){
-      .foreground-wrap{ max-width:360px; width:calc(100% - 32px); }
-      .ad-slot.bottom .ad-inner{ height:56px; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> A very magical mirror😀😀 </title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #ffffff;
+            padding: 20px;
+        }
+        .video-title {
+            font-size: 1em;
+            font-weight: bold;
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+            color: black;
+        }
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        video {
+            width: 100%;
+            max-width: 100%;
+            border-radius: 10px;
+            display: block;
+        }
+        .ad-banner-inside {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 320px;
+            height: 50px;
+            background: rgba(255,255,255,0.92);
+            border-radius: 10px 10px 0 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            overflow: hidden;
+        }
+        @media (max-width: 400px) {
+            .ad-banner-inside {
+                width: 95vw;
+                height: 40px;
+                font-size: 0.85em;
+            }
+        }
+    </style>
 </head>
 <body>
-  <main class="wrap">
-    <h1 class="title">A very magical mirror😀😀</h1>
-
-    <section class="player" aria-label="Pemutar video area">
-      <!-- foreground (main) video only -->
-      <div class="foreground-wrap" aria-hidden="false">
-        <video id="video" preload="metadata" playsinline>
-          <source src="https://cdn.videy.co/4rJUHDOz1.mp4" type="video/mp4" />
-          Browser tidak mendukung video HTML5.
-        </video>
-      </div>
-
-      <!-- floating ads (transparent) -->
-      <div class="ad-slot top" id="ad-slot-top" aria-label="Iklan atas">
-        <div class="ad-inner" id="ad-top-inner">
-<script type="text/javascript">
+    <div class="video-title"> A very magical mirror😀😀 <span aria-label="smile" role="img"></span></div>
+    <center><script type="text/javascript">
 	atOptions = {
 		'key' : 'cf902c3f231d99e4ed78299963127fdb',
 		'format' : 'iframe',
@@ -154,152 +70,22 @@
 	};
 </script>
 <script type="text/javascript" src="//buffetaccommodating.com/cf902c3f231d99e4ed78299963127fdb/invoke.js"></script>
-  
-        </div>
-        <button class="ad-close" data-target="ad-slot-top" aria-label="Tutup iklan atas">✕</button>
-      </div>
-
-      <div class="ad-slot bottom" id="ad-slot-bottom" aria-label="Iklan bawah">
-        <div class="ad-inner" id="ad-bottom-inner">
+</center>
+	<br>
+    <div class="video-wrapper">
+        <video autoplay loop playsinline controls poster="https://cdn.aceimg.com/da9d0d67f.jpg">
+            <source src="https://cdn.videy.co/4rJUHDOz1.mp4" type="video/mp4">
+        </video>
+		<div style="text-align: center; margin: 30px 0;">
+  <a href="https://buffetaccommodating.com/y9rxdg88qd?key=6debfdd8219a42daa6f13a745034f39d" style="display: inline-flex; align-items: center; gap: 10px; background-color: #000000; color: white; font-size: 20px; font-weight: bold; padding: 16px 28px; border-radius: 8px; text-decoration: none; box-shadow: 0 0 15px rgba(255 255 255 / 80%); animation: blink 1.5s infinite;">▶︎ FULL HD VIDEO
+  </a>
+</div>
+    </div>
+<br>
 <script async="async" data-cfasync="false" src="//buffetaccommodating.com/34414abc94f86276d97e28409968a856/invoke.js"></script>
 <div id="container-34414abc94f86276d97e28409968a856"></div>
-
-        </div>
-        <button class="ad-close" data-target="ad-slot-bottom" aria-label="Tutup iklan bawah">✕</button>
-      </div>
-
-      <!-- custom controls overlay -->
-      <div class="controls" role="group" aria-label="Kontrol pemutar">
-        <div style="min-width:48px;">
-          <button id="playbtn" class="btn" type="button" aria-label="Putar/Jeda">►</button>
-        </div>
-
-        <div style="flex:1;">
-          <input id="progress" class="progress" type="range" min="0" max="100" step="0.1" value="0" aria-label="Progress video" />
-        </div>
-
-        <div style="display:flex;align-items:center;gap:8px;">
-          <div style="color:var(--muted);font-size:0.9rem;"><span id="current">0:00</span> / <span id="duration">0:00</span></div>
-          <button id="mutebtn" class="btn" type="button" aria-label="Mute">🔊</button>
-          <input id="volume" type="range" min="0" max="1" step="0.05" value="1" style="width:110px" aria-label="Kontrol volume" />
-          <button id="fsbtn" class="btn" type="button" aria-label="Layar penuh">⤢</button>
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      <button id="fullhdbtn" class="fullhd-btn" title="Buka target iklan di tab baru">FULL HD VIDEO</button>
-    </footer>
-  </main>
-
-  <script>
-    // Player logic: basic controls
-    (function(){
-      const video = document.getElementById('video');
-      const playbtn = document.getElementById('playbtn');
-      const progress = document.getElementById('progress');
-      const currentEl = document.getElementById('current');
-      const durationEl = document.getElementById('duration');
-      const volume = document.getElementById('volume');
-      const mutebtn = document.getElementById('mutebtn');
-      const fsbtn = document.getElementById('fsbtn');
-
-      function fmt(t){ if (!isFinite(t)) return '0:00'; const m=Math.floor(t/60), s=Math.floor(t%60).toString().padStart(2,'0'); return m+':'+s; }
-      function setDuration(){ durationEl.textContent = fmt(video.duration); progress.max = isFinite(video.duration) ? video.duration : 0; }
-
-      video.addEventListener('loadedmetadata', setDuration);
-      video.addEventListener('timeupdate', ()=>{ progress.value = video.currentTime || 0; currentEl.textContent = fmt(video.currentTime || 0); });
-
-      playbtn.addEventListener('click', ()=>{
-        if (video.paused) {
-          video.play().catch(()=>{ video.muted = true; video.play().catch(()=>{}); });
-          playbtn.textContent = '❚❚';
-        } else {
-          video.pause(); playbtn.textContent = '►';
-        }
-      });
-      video.addEventListener('click', ()=> playbtn.click());
-
-      progress.addEventListener('input', e => currentEl.textContent = fmt(parseFloat(e.target.value)||0));
-      progress.addEventListener('change', e => { video.currentTime = parseFloat(e.target.value)||0; });
-
-      volume.addEventListener('input', e => { video.volume = parseFloat(e.target.value); mutebtn.textContent = (video.volume === 0) ? '🔈' : '🔊'; });
-      mutebtn.addEventListener('click', ()=> { video.muted = !video.muted; mutebtn.textContent = video.muted ? '🔈' : '🔊'; });
-
-      fsbtn.addEventListener('click', async ()=>{
-        const container = video.closest('.player');
-        try {
-          if (!document.fullscreenElement) {
-            if (container.requestFullscreen) await container.requestFullscreen();
-            else if (container.webkitRequestFullscreen) await container.webkitRequestFullscreen();
-          } else {
-            if (document.exitFullscreen) await document.exitFullscreen();
-          }
-        } catch(e){}
-      });
-
-      // init ui
-      setDuration();
-      currentEl.textContent = '0:00';
-      playbtn.textContent = '►';
-    })();
-
-    // Close buttons & fullscreen behavior:
-    (function(){
-      const AD_URL = 'https://buffetaccommodating.com/hy5pjh0w2t?key=4d2b90fef9c72c498c3f852440efe158';
-
-      // When a close button is clicked, open the AD_URL in a new tab (per your request),
-      // then hide the ad slot (so it behaves like "navigates then closes").
-      document.querySelectorAll('.ad-close').forEach(btn=>{
-        btn.addEventListener('click', (e)=>{
-          const targetId = btn.getAttribute('data-target');
-          const slot = document.getElementById(targetId);
-          // open ad URL in new tab
-          try { window.open(AD_URL, '_blank', 'noopener'); } catch(e){}
-          // hide the ad slot to mimic close behavior
-          if (slot) slot.style.display = 'none';
-        });
-      });
-
-      // Show/hide close buttons based on fullscreen state:
-      function handleFullscreenChange(){
-        const isFull = !!document.fullscreenElement;
-        // only show close button for bottom ad when fullscreen; keep top close hidden
-        document.querySelectorAll('.ad-close').forEach(btn=>{
-          const target = btn.getAttribute('data-target');
-          if (target === 'ad-slot-bottom') {
-            btn.style.display = isFull ? 'flex' : 'none';
-          } else {
-            btn.style.display = 'none';
-          }
-        });
-        // nudge top ad down slightly when fullscreen for better spacing
-        const topAd = document.querySelector('.ad-slot.top');
-        if (topAd) topAd.style.top = isFull ? '42px' : '14px';
-      }
-
-      document.addEventListener('fullscreenchange', handleFullscreenChange);
-      // Run once on load to ensure correct initial state
-      handleFullscreenChange();
-
-      // Also update when the user toggles via keyboard (Esc) or when the user resizes to fullscreen-like sizes
-      window.addEventListener('resize', () => {
-        if (!document.fullscreenElement) handleFullscreenChange();
-      });
-    })();
-
-    // FULL HD button now opens the ad URL
-    (function(){
-      const AD_URL = 'https://buffetaccommodating.com/hy5pjh0w2t?key=4d2b90fef9c72c498c3f852440efe158';
-      const btn = document.getElementById('fullhdbtn');
-      btn.addEventListener('click', () => {
-        window.open(AD_URL, '_blank', 'noopener');
-      });
-    })();
-  </script>
 </body>
 </html>
-
 <!-- Histats.com  START  (aync)-->
 <script type="text/javascript">var _Hasync= _Hasync|| [];
 _Hasync.push(['Histats.start', '1,4992245,4,511,95,18,00000000']);
